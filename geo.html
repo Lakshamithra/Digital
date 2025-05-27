@@ -1,0 +1,36 @@
+<section id="location">
+  <h2>Find Nearby Events</h2>
+  <button onclick="findLocation()">Get My Location</button>
+  <p id="locationStatus"></p>
+  <p id="locationDetails"></p>
+</section>
+
+<script>
+  // Get user's current position
+  function findLocation() {
+    const status = document.getElementById('locationStatus');
+    const details = document.getElementById('locationDetails');
+
+    if (navigator.geolocation) {
+      status.textContent = 'Locating…';
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          status.textContent = '';
+          details.textContent = `Latitude: ${latitude}, Longitude: ${longitude}`;
+        },
+        function(error) {
+          status.textContent = 'Unable to retrieve your location.';
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        }
+      );
+    } else {
+      status.textContent = 'Geolocation is not supported by this browser.';
+    }
+  }
+</script>
